@@ -43,13 +43,16 @@ go
 --Tabla Estudiante
 create table Academico.Estudiante
 (
-    id int primary key identity(1,1),
-    cif varchar(8) unique not null,
-    nombres nvarchar(60) not null,
-    apellidos nvarchar(60) not null,
+    id int identity(1,1) constraint pk_estudiante primary key,
+    cif varchar(8) constraint uq_estudiante_cif unique 
+        constraint nn_estudiante_cif not null,
+    nombres nvarchar(60) constraint nn_estudiante_nombres not null,
+    apellidos nvarchar(60) constraint nn_estudiante_apellidos not null,
     fechaNac datetime null,
-    email varchar(120) null,
-    idCarrera int foreign key references Academico.Carrera(id)
+    email varchar(120)
+        constraint chk_email check (email like '%@%.%'),
+    idCarrera int constraint fk_estudiante_carrera 
+        foreign key references Academico.Carrera(id)
 )
 go
 
