@@ -60,9 +60,9 @@ go
 --Tabla Cargo
 create table Seguridad.Cargo
 (
-    idCargo int primary key identity(1,1),
-    nombre_cargo nvarchar(100) not null,
-    created_at datetime default getdate(),
+    idCargo int identity(1,1) constraint pk_cargo primary key,
+    nombre_cargo nvarchar(100) constraint nn_cargo_nombre not null,
+    created_at datetime constraint df_cargo_created default getdate(),
     updated_at datetime null,
     deleted_at datetime
 )
@@ -72,14 +72,15 @@ go
 --Tabla Usuario
 create table Seguridad.Usuario
 (
-    idUsuario int identity(1,1) primary key,
-    cif varchar(16) unique not null,
-    nombres nvarchar(60) not null,
-    apellidos nvarchar(60) not null,
+    idUsuario int identity(1,1) constraint pk_usuario primary key,
+    cif varchar(16) constraint uq_usuario_cif unique constraint nn_usuario_cif not null,
+    nombres nvarchar(60) constraint nn_usuario_nombres not null,
+    apellidos nvarchar(60) constraint nn_usuario_apellidos not null,
     fechaNac datetime null,
     pw varbinary(64) not null,
-    email varchar(120) null,
-    created_at datetime default getdate(),
+    email varchar(120) constraint chk_email check (email like '%@%.%'),
+    idCargo int constraint fk_usuario_cargo foreign key references Seguridad.Cargo(idCargo),
+    created_at datetime constraint df_usuario_created default getdate(),
     updated_at datetime null
 )
 go
