@@ -29,10 +29,11 @@ go
 --Tabla Carrera
 create table Academico.Carrera
 (
-    id int primary key identity(1,1),
-    nombre_carrera nvarchar(100) not null,
+    id int primary constraint pk_carrera primary key (1,1),
+    nombre_carrera nvarchar(100) constraint nn_nombre_carrera not null,
     precio decimal(10,2),
-    created_at datetime default getdate(),
+        constraint chk_precio check (precio > 0),
+    created_at datetime constraint df_carrera_created default getdate(),
     updated_at datetime null,
     deleted_at datetime null
 
